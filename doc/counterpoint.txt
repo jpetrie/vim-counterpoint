@@ -1,0 +1,34 @@
+INTRODUCTION                              *counterpoint*
+
+Counterpoint provides a set of commands to navigate between file counterparts.
+Counterpoint takes a fairly broad view of what constitutes a counterpart;
+traditionally "a.h" and "a.cpp" would be considered counterparts of eachother,
+and indeed Counterpoint supports that. However, Counterpoint would also treat
+"a.osx.cpp" and "a.win.cpp" as members of the same collection of counterparts.
+
+More specifically, Counterpoint navigates between a group of files defined by
+a root name that is determined by taking the substring of the name up until 
+the first dot.
+
+A special exemption is made for files that begin with a dot; for these files,
+the root file name is determined by taking the substring to the second dot.
+
+COMMANDS                                  *counterpoint-commands* 
+
+Counterpoint provides the following globally-available commands.
+
+                                          *counterpoint-:CounterpointNext*
+:CounterpointNext        Edit the next counterpart, alphabetically.
+
+                                          *counterpoint-:CounterpointPrevious*
+:CounterpointPrevious    Edit the previous counterpart, alphabetically. 
+
+
+ABOUT                                   *counterpoint-about*
+
+Counterpoint is written and maintained by Josh Petrie. Grab the latest
+version or report a bug via GitHub:
+
+  http://github.com/jpetrie/vim-counterpoint
+
+Counterpoint is distributed under the terms of the MIT license.
