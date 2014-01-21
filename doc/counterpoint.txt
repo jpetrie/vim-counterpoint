@@ -29,6 +29,6 @@ ABOUT                                   *counterpoint-about*
 Counterpoint is written and maintained by Josh Petrie. Grab the latest
 version or report a bug via GitHub:
 
-  http://github.com/jpetrie/vim-counterpoint
+  https://github.com/jpetrie/vim-counterpoint
 
 Counterpoint is distributed under the terms of the MIT license.
