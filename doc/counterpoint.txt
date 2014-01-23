@@ -1,4 +1,4 @@
-INTRODUCTION                              *counterpoint*
+INTRODUCTION                        *counterpoint*
 
 Counterpoint provides a set of commands to navigate between file counterparts.
 Counterpoint takes a fairly broad view of what constitutes a counterpart;
@@ -13,18 +13,31 @@ the first dot.
 A special exemption is made for files that begin with a dot; for these files,
 the root file name is determined by taking the substring to the second dot.
 
-COMMANDS                                  *counterpoint-commands* 
+COMMANDS                            *counterpoint-commands* 
 
 Counterpoint provides the following globally-available commands.
 
-                                          *counterpoint-:CounterpointNext*
-:CounterpointNext        Edit the next counterpart, alphabetically.
+                                    *counterpoint-:CounterpointNext*
+:CounterpointNext              Edit the next counterpart, alphabetically.
 
-                                          *counterpoint-:CounterpointPrevious*
-:CounterpointPrevious    Edit the previous counterpart, alphabetically. 
+                                    *counterpoint-:CounterpointPrevious*
+:CounterpointPrevious          Edit the previous counterpart, alphabetically. 
+
+                                    *counterpoint-:CounterpointAddSearchPath*
+:CounterpointAddSearchPath <path>
+                                    Adds a path to the counterpart search path set.
+                                    Paths are relative to the current file at the
+                                    time Counterpoint's cycling is invoked.
+
+                                    *counterpoint-:CounterpointRemoveSearchPath*
+:CounterpointRemoveSearchPath <path>
+                                    Removes a path from the counterpart search set.
+                                    Removing a path must be done via the exact same
+                                    string that the path was added with; symbolic
+                                    links, et cetera, are not interpreted.
 
 
-ABOUT                                   *counterpoint-about*
+ABOUT                               *counterpoint-about*
 
 Counterpoint is written and maintained by Josh Petrie. Grab the latest
 version or report a bug via GitHub:
