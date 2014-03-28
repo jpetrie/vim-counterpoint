@@ -68,3 +68,20 @@ This means you usually want to add search paths in pairs. If you have a source t
 
 (If you were to add only one of these paths, say just `../src`, then you could cycle from
 the header to source file, but you would not be able to cycle back.)
+
+### Excluding Files
+
+Counterpoint can be configured to exclude files, based on regular expressions, from the
+counterpart set. By default, the exclusion pattern list is empty, but can be manipulated
+via the following functions:
+
+    :CounterpointAddExclusionPattern "pattern"
+    :CounterpointRemoveExclusionPattern "pattern"
+
+When cycling between counterparts, any file that matches any of the regular expressions
+in the exclusion set will be removed from the set of available counterparts.
+
+The patterns in the exclusion set are evaluated against potential counterpart paths using
+vim's "=~" operator, so the caveats of that operator apply (`'magic'` acts as set and
+`'cpoptions'` acts empty; see `:help expr-=~` for details).
+

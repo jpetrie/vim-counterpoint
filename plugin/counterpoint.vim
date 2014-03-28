@@ -1,6 +1,6 @@
 " counterpoint.vim - File Counterpart Navigation
-" Author:  Josh Petrie <http://joshpetrie.com>
-" Version: 0.2
+" Author:  Josh Petrie <http://joshpetrie.net>
+" Version: 0.3
 
 if exists("g:loaded_counterpoint")
     finish
@@ -9,6 +9,7 @@ endif
 let g:loaded_counterpoint = 1
 
 let s:searchPaths = ["."]
+let s:exclusionPatterns = [ ]
 
 function! s:SanitizeList(subject)
     let deduplicated = {}
@@ -34,6 +35,23 @@ function! s:RemoveSearchPath(path)
     let s:searchPaths = s:SanitizeList(filter(s:searchPaths, "v:val != a:path"))
 endfunc
 
+function! s:AddExclusionPattern(pattern)
+    let s:exclusionPatterns = s:SanitizeList(s:exclusionPatterns + [a:pattern])
+endfunc
+
+function! s:RemoveExclusionPattern(pattern)
+    let s:exclusionPatterns = s:SanitizeList(filter(s:exclusionPatterns, "v:val != a:pattern"))
+endfunc
+
+function! s:IsCounterpartExcluded(counterpart)
+    for exclusion in s:exclusionPatterns
+        if a:counterpart =~ exclusion
+            return 1
+        endif
+    endfor
+    return 0
+endfunc
+
 function! s:CycleCounterpart(amount)
     let currentFile = expand("%:t")
     if (strpart(currentFile, 0, 1) == ".")
@@ -53,7 +71,11 @@ function! s:CycleCounterpart(amount)
     let paths = s:AttachPaths(s:searchPaths, expand("%:h"))
     let root = strpart(currentFile, 0, splitIndex)
 
-    let counterparts = s:SanitizeList(split(globpath(join(paths, ","), root . ".*")))
+    " Collect the potential counterparts, filter out anything that matches any
+    " supplied exclusion patterns, remove any duplicates, and then cycle.
+    let counterparts = split(globpath(join(paths, ","), root . ".*"))
+    let counterparts = filter(counterparts, "!s:IsCounterpartExcluded(v:val)")
+    let counterparts = s:SanitizeList(counterparts)
     if len(counterparts) <= 1
         echo "No counterpart available."
         return
@@ -73,6 +95,9 @@ endfunc
 
 command! -nargs=1 CounterpointAddSearchPath :call s:AddSearchPath(<args>)
 command! -nargs=1 CounterpointRemoveSearchPath :call s:RemoveSearchPath(<args>)
+
+command! -nargs=1 CounterpointAddExclusionPattern :call s:AddExclusionPattern(<args>)
+command! -nargs=1 CounterpointRemoveExclusionPattern :call s:RemoveExclusionPattern(<args>)
 
 command! -nargs=0 CounterpointNext :call s:CycleCounterpart(1)
 command! -nargs=0 CounterpointPrevious :call s:CycleCounterpart(-1)

@@ -36,6 +36,18 @@ Counterpoint provides the following globally-available commands.
                                     string that the path was added with; symbolic
                                     links, et cetera, are not interpreted.
 
+                                    *counterpoint-:CounterpointAddExclusionPattern*
+:CounterpointAddExclusionPattern <pattern>
+                                    Adds a regular expression to the exclusion
+                                    pattern set. Any paths that match any pattern
+                                    in the set are removed from consideration when
+                                    cycling counterparts.
+
+                                    *counterpoint-:CounterpointRemoveExclusionPattern*
+:CounterpointRemoveExclusionPattern <pattern>
+                                    Removes a pattern from the exclusion set. Removing
+                                    a pattern must be done via the exact same string
+                                    string that the pattern was added with.
 
 ABOUT                               *counterpoint-about*
 
