@@ -1,12 +1,14 @@
 " counterpoint.vim - File Counterpart Navigation
 " Author:  Josh Petrie <http://joshpetrie.net>
-" Version: 0.3
+" Version: 0.4
 
 if exists("g:loaded_counterpoint")
   finish
 endif
 
 let g:loaded_counterpoint = 1
+
+let g:counterpoint_depth = 0
 
 let s:searchPaths = ["."]
 let s:exclusionPatterns = [ ]
@@ -54,25 +56,17 @@ endfunc
 
 function! s:CycleCounterpart(amount)
   let currentFile = expand("%:t")
-  if (strpart(currentFile, 0, 1) == ".")
-    " Don't treat the leading dot for invisible files as the
-    " beginning of the varying portion of the counterpart name.
-    let searchIndex = 1
+
+  let parts = split(currentFile, "[.]")
+  if g:counterpoint_depth == 0
+    let root = parts[0]
   else
-    let searchIndex = 0
+    let root = join(parts[0:-g:counterpoint_depth - 1], ".")
   endif
-
-  let splitIndex = stridx(currentFile, ".", searchIndex)
-  if splitIndex == -1
-    echo "No counterpart available."
-    return
-  endif
-
-  let paths = s:AttachPaths(s:searchPaths, expand("%:h"))
-  let root = strpart(currentFile, 0, splitIndex)
 
   " Collect the potential counterparts, filter out anything that matches any
   " supplied exclusion patterns, remove any duplicates, and then cycle.
+  let paths = s:AttachPaths(s:searchPaths, expand("%:h"))
   let counterparts = split(globpath(join(paths, ","), root . ".*"))
   let counterparts = filter(counterparts, "!s:IsCounterpartExcluded(v:val)")
   let counterparts = s:SanitizeList(counterparts)
@@ -88,7 +82,7 @@ function! s:CycleCounterpart(amount)
       execute ":edit " . counterparts[(index + a:amount) % len(counterparts)]
       break
     endif
-      
+
     let index += 1
   endfor
 endfunc
