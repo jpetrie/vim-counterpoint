@@ -24,7 +24,8 @@ endfunc
 function! s:AttachPaths(paths, root)
   let results = []
   for path in a:paths
-    let results = results + [fnamemodify(simplify(a:root . "/" . path), ":p")]
+    let result = substitute(fnamemodify(simplify(a:root . "/" . path), ":p"), "\\\\$", "", "")
+    call add(results, result)
   endfor
   return results
 endfunc
