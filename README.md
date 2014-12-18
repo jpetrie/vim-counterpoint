@@ -15,8 +15,8 @@ counterparts).
 
 By default, if the current file *starts* with a `.`, Counterpoint uses the
 everything before the *second* dot in the filename as the root. This allows
-Counterpoint to support switching between (for example) `.vimrc` and
-`.vimrc.old`.
+Counterpoint to support switching between alternate versions of invisible
+files.
 
 Counterpoint switches between counterparts in alphabetical order.  
 
