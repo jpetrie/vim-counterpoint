@@ -64,6 +64,11 @@ function! s:CycleCounterpart(amount)
     let root = join(parts[0:-g:counterpoint_depth - 1], ".")
   endif
 
+  " Restore the leading dot, if it existed.
+  if currentFile[0] == "."
+    let root = "." . root
+  endif
+
   " Collect the potential counterparts, filter out anything that matches any
   " supplied exclusion patterns, remove any duplicates, and then cycle.
   let paths = s:AttachPaths(s:searchPaths, expand("%:h"))
