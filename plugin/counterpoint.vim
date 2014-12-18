@@ -84,7 +84,7 @@ function! s:CycleCounterpart(amount)
   let index = 0
   for counterpart in counterparts
     if currentPath == fnamemodify(counterpart, ":p")
-      execute ":edit " . counterparts[(index + a:amount) % len(counterparts)]
+      execute ":edit " . fnamemodify(counterparts[(index + a:amount) % len(counterparts)], ":~:.")
       break
     endif
 
