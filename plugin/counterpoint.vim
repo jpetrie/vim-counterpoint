@@ -1,6 +1,6 @@
 " counterpoint.vim - File Counterpart Navigation
 " Author:  Josh Petrie <http://joshpetrie.net>
-" Version: 0.4
+" Version: 0.5
 
 if exists("g:loaded_counterpoint")
   finish
@@ -10,7 +10,10 @@ let g:loaded_counterpoint = 1
 
 let g:counterpoint_depth = 0
 
-let s:searchPaths = ["."]
+if !exists("g:counterpoint_search_paths")
+  let g:counterpoint_search_paths = []
+endif
+
 let s:exclusionPatterns = [ ]
 
 function! s:SanitizeList(subject)
@@ -19,32 +22,24 @@ function! s:SanitizeList(subject)
     let deduplicated[item] = ""
   endfor
   return sort(keys(deduplicated))
-endfunc
+endfunction
 
-function! s:AttachPaths(paths, root)
+function! s:PrepareSearchPaths(paths, root)
   let results = []
   for path in a:paths
     let result = substitute(fnamemodify(simplify(a:root . "/" . path), ":p"), "\\\\$", "", "")
     call add(results, result)
   endfor
-  return results
-endfunc
-
-function! s:AddSearchPath(path)
-  let s:searchPaths = s:SanitizeList(s:searchPaths + [a:path])
-endfunc
-
-function! s:RemoveSearchPath(path)
-  let s:searchPaths = s:SanitizeList(filter(s:searchPaths, "v:val != a:path"))
-endfunc
+  return s:SanitizeList(results)
+endfunction
 
 function! s:AddExclusionPattern(pattern)
   let s:exclusionPatterns = s:SanitizeList(s:exclusionPatterns + [a:pattern])
-endfunc
+endfunction
 
 function! s:RemoveExclusionPattern(pattern)
   let s:exclusionPatterns = s:SanitizeList(filter(s:exclusionPatterns, "v:val != a:pattern"))
-endfunc
+endfunction
 
 function! s:IsCounterpartExcluded(counterpart)
   for exclusion in s:exclusionPatterns
@@ -53,7 +48,7 @@ function! s:IsCounterpartExcluded(counterpart)
     endif
   endfor
   return 0
-endfunc
+endfunction
 
 function! s:CycleCounterpart(amount)
   let currentFile = expand("%:t")
@@ -70,9 +65,13 @@ function! s:CycleCounterpart(amount)
     let root = "." . root
   endif
 
+  " Prepare search paths.
+  let paths = copy(g:counterpoint_search_paths)
+  call add(paths, ".")
+  let paths = s:PrepareSearchPaths(paths, expand("%:h"))
+
   " Collect the potential counterparts, filter out anything that matches any
   " supplied exclusion patterns, remove any duplicates, and then cycle.
-  let paths = s:AttachPaths(s:searchPaths, expand("%:h"))
   let counterparts = split(globpath(join(paths, ","), root . ".*"))
   let counterparts = filter(counterparts, "!s:IsCounterpartExcluded(v:val)")
   let counterparts = s:SanitizeList(counterparts)
@@ -91,10 +90,7 @@ function! s:CycleCounterpart(amount)
 
     let index += 1
   endfor
-endfunc
-
-command! -nargs=1 CounterpointAddSearchPath :call s:AddSearchPath(<args>)
-command! -nargs=1 CounterpointRemoveSearchPath :call s:RemoveSearchPath(<args>)
+endfunction
 
 command! -nargs=1 CounterpointAddExclusionPattern :call s:AddExclusionPattern(<args>)
 command! -nargs=1 CounterpointRemoveExclusionPattern :call s:RemoveExclusionPattern(<args>)

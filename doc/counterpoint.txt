@@ -21,20 +21,7 @@ Counterpoint provides the following globally-available commands.
 :CounterpointNext              Edit the next counterpart, alphabetically.
 
                                     *counterpoint-:CounterpointPrevious*
-:CounterpointPrevious          Edit the previous counterpart, alphabetically. 
-
-                                    *counterpoint-:CounterpointAddSearchPath*
-:CounterpointAddSearchPath <path>
-                                    Adds a path to the counterpart search path set.
-                                    Paths are relative to the current file at the
-                                    time Counterpoint's cycling is invoked.
-
-                                    *counterpoint-:CounterpointRemoveSearchPath*
-:CounterpointRemoveSearchPath <path>
-                                    Removes a path from the counterpart search set.
-                                    Removing a path must be done via the exact same
-                                    string that the path was added with; symbolic
-                                    links, et cetera, are not interpreted.
+:CounterpointPrevious          Edit the previous counterpart, alphabetically.
 
                                     *counterpoint-:CounterpointAddExclusionPattern*
 :CounterpointAddExclusionPattern <pattern>
@@ -52,7 +39,7 @@ Counterpoint provides the following globally-available commands.
 ABOUT                               *counterpoint-about*
 
 Counterpoint is written and maintained by Josh Petrie. Grab the latest
-version or report a bug via GitHub:
+version, report a bug, or request a new feature via GitHub:
 
   https://github.com/jpetrie/vim-counterpoint
 
