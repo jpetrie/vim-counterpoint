@@ -69,10 +69,9 @@ the header to source file, but you would not be able to cycle back.)
 
 Counterpoint can be configured to exclude files, based on regular expressions, from the
 counterpart set. By default, the exclusion pattern list is empty, but can be manipulated
-via the following functions:
+by changing the value of the `g:counterpoint_exclude_patterns` array:
 
-    :CounterpointAddExclusionPattern "pattern"
-    :CounterpointRemoveExclusionPattern "pattern"
+    let g:counterpoint_exclude_patterns = ["patternA", "patternB"]
 
 When cycling between counterparts, any file that matches any of the regular expressions
 in the exclusion set will be removed from the set of available counterparts.

@@ -1,4 +1,4 @@
-INTRODUCTION                        *counterpoint*
+INTRODUCTION                               *counterpoint*
 
 Counterpoint provides a set of commands to navigate between file counterparts.
 Counterpoint takes a fairly broad view of what constitutes a counterpart;
@@ -13,30 +13,17 @@ the first dot.
 A special exemption is made for files that begin with a dot; for these files,
 the root file name is determined by taking the substring to the second dot.
 
-COMMANDS                            *counterpoint-commands* 
+COMMANDS                                   *counterpoint-commands* 
 
 Counterpoint provides the following globally-available commands.
 
-                                    *counterpoint-:CounterpointNext*
-:CounterpointNext              Edit the next counterpart, alphabetically.
+                                           *counterpoint-:CounterpointNext*
+:CounterpointNext                          Edit the next counterpart.
 
-                                    *counterpoint-:CounterpointPrevious*
-:CounterpointPrevious          Edit the previous counterpart, alphabetically.
+                                           *counterpoint-:CounterpointPrevious*
+:CounterpointPrevious                      Edit the previous counterpart.
 
-                                    *counterpoint-:CounterpointAddExclusionPattern*
-:CounterpointAddExclusionPattern <pattern>
-                                    Adds a regular expression to the exclusion
-                                    pattern set. Any paths that match any pattern
-                                    in the set are removed from consideration when
-                                    cycling counterparts.
-
-                                    *counterpoint-:CounterpointRemoveExclusionPattern*
-:CounterpointRemoveExclusionPattern <pattern>
-                                    Removes a pattern from the exclusion set. Removing
-                                    a pattern must be done via the exact same string
-                                    string that the pattern was added with.
-
-ABOUT                               *counterpoint-about*
+ABOUT                                      *counterpoint-about*
 
 Counterpoint is written and maintained by Josh Petrie. Grab the latest
 version, report a bug, or request a new feature via GitHub:

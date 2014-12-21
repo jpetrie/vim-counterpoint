@@ -1,6 +1,6 @@
 " counterpoint.vim - File Counterpart Navigation
 " Author:  Josh Petrie <http://joshpetrie.net>
-" Version: 0.5
+" Version: 0.6
 
 if exists("g:loaded_counterpoint")
   finish
@@ -12,6 +12,10 @@ let g:counterpoint_depth = 0
 
 if !exists("g:counterpoint_search_paths")
   let g:counterpoint_search_paths = []
+endif
+
+if !exists("g:counterpoint_exclude_patterns")
+  let g:counterpoint_exclude_patterns = []
 endif
 
 let s:exclusionPatterns = [ ]
@@ -33,16 +37,8 @@ function! s:PrepareSearchPaths(paths, root)
   return s:SanitizeList(results)
 endfunction
 
-function! s:AddExclusionPattern(pattern)
-  let s:exclusionPatterns = s:SanitizeList(s:exclusionPatterns + [a:pattern])
-endfunction
-
-function! s:RemoveExclusionPattern(pattern)
-  let s:exclusionPatterns = s:SanitizeList(filter(s:exclusionPatterns, "v:val != a:pattern"))
-endfunction
-
 function! s:IsCounterpartExcluded(counterpart)
-  for exclusion in s:exclusionPatterns
+  for exclusion in g:counterpoint_exclude_patterns
     if a:counterpart =~ exclusion
       return 1
     endif
@@ -91,9 +87,6 @@ function! s:CycleCounterpart(amount)
     let index += 1
   endfor
 endfunction
-
-command! -nargs=1 CounterpointAddExclusionPattern :call s:AddExclusionPattern(<args>)
-command! -nargs=1 CounterpointRemoveExclusionPattern :call s:RemoveExclusionPattern(<args>)
 
 command! -nargs=0 CounterpointNext :call s:CycleCounterpart(1)
 command! -nargs=0 CounterpointPrevious :call s:CycleCounterpart(-1)
