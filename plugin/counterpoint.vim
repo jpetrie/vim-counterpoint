@@ -20,7 +20,7 @@ if !exists("g:counterpoint_exclude_patterns")
   let g:counterpoint_exclude_patterns = []
 endif
 
-function! s:SanitizeList(subject)
+function! s:RemoveDuplicates(subject)
   let deduplicated = {}
   for item in a:subject
     let deduplicated[item] = ""
@@ -34,7 +34,7 @@ function! s:PrepareSearchPaths(paths, root)
     let result = substitute(fnamemodify(simplify(a:root . "/" . path), ":p"), "\\\\$", "", "")
     call add(results, result)
   endfor
-  return s:SanitizeList(results)
+  return s:RemoveDuplicates(results)
 endfunction
 
 function! s:IsCounterpartExcluded(counterpart)
@@ -70,7 +70,7 @@ function! s:CycleCounterpart(amount)
   " supplied exclusion patterns, remove any duplicates, and then cycle.
   let counterparts = split(globpath(join(paths, ","), root . ".*"))
   let counterparts = filter(counterparts, "!s:IsCounterpartExcluded(v:val)")
-  let counterparts = s:SanitizeList(counterparts)
+  let counterparts = s:RemoveDuplicates(counterparts)
   if len(counterparts) <= 1
     echo "No counterpart available."
     return
