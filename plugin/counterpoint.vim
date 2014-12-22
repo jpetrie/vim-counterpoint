@@ -18,8 +18,6 @@ if !exists("g:counterpoint_exclude_patterns")
   let g:counterpoint_exclude_patterns = []
 endif
 
-let s:exclusionPatterns = [ ]
-
 function! s:SanitizeList(subject)
   let deduplicated = {}
   for item in a:subject
