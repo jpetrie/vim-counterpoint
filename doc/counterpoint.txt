@@ -1,33 +1,106 @@
-INTRODUCTION                               *counterpoint*
+*counterpoint.vim*  Simple navigation for file counterparts.
+
+Author:  Josh Petrie <http://joshpetrie.net>
+License: MIT license
+
+------------------------------------------------------------------------------
+INTRODUCTION                              *counterpoint*
 
 Counterpoint provides a set of commands to navigate between file counterparts.
 Counterpoint takes a fairly broad view of what constitutes a counterpart;
-traditionally "a.h" and "a.cpp" would be considered counterparts of eachother,
-and indeed Counterpoint supports that. However, Counterpoint would also treat
-"a.osx.cpp" and "a.win.cpp" as members of the same collection of counterparts.
+traditionally "a.h" and "a.cpp" would be considered counterparts, and indeed
+Counterpoint understands that. However, Counterpoint will also treat
+"a.osx.cpp" and "a.win.cpp" as members of the same collection of alternates.
 
-More specifically, Counterpoint navigates between a group of files defined by
-a root name that is determined by taking the substring of the name up until 
-the first dot.
+Specifically, Counterpart navigates between a group a files defined by a root
+name, which is everything to left of the first dot in a file name. A leading
+dot (as exists in the names of invisible files) is still considered part of
+the root name. Anything after the root name is considered an extension, and
+Counterpoint will cycle between those extensions in alphabetical order.
 
-A special exemption is made for files that begin with a dot; for these files,
-the root file name is determined by taking the substring to the second dot.
+Counterpoint is designed to function reasonably intelligently by default, with
+no configuration required. However, a small set of options are available;
+see |counterpoint-options| for details.
 
-COMMANDS                                   *counterpoint-commands* 
+------------------------------------------------------------------------------
+COMMANDS                                  *counterpoint-commands* 
 
-Counterpoint provides the following globally-available commands.
+Counterpoint provides the following commands:
 
-                                           *counterpoint-:CounterpointNext*
-:CounterpointNext                          Edit the next counterpart.
+:CounterpointNext                         *counterpoint-:CounterpointNext*
+                                          Edit the next counterpart.
 
-                                           *counterpoint-:CounterpointPrevious*
-:CounterpointPrevious                      Edit the previous counterpart.
+:CounterpointPrevious                     *counterpoint-:CounterpointPrevious*
+                                          Edit the previous counterpart.
 
-ABOUT                                      *counterpoint-about*
+------------------------------------------------------------------------------
+OPTIONS                                   *counterpoint-options*
+
+Counterpoint's behavior can be modified via the following options:
+
+|g:counterpoint_search_paths|               *g:counterpoint_search_paths*
+
+An array of paths to search for counterparts. All paths should be relative,
+and will be interpreted as being relative to the current file (which is not
+always the same as vim's working directory). For example, to switch between
+C++ header and source files that live in seperate "inc" and "src" directories,
+set the variable like so: >
+
+    let g:counterpoint_search_paths = ["../inc", "../src"]
+<
+Generally, search paths will need to be added in pairs, as above, or it will
+be possible to switch to some counterpart, but not back.
+
+Regardless of the content of this variable, the directory of the current file
+will always be searched.
+
+The default value is an empty array.
+
+|g:counterpoint_exclude_patterns|           *g:counterpoint_exclude_patterns*
+
+An array of regular expression patterns; any file that matches any of the 
+patterns in the array will not be considered as a counterpart when cycling.
+For example, to exclude any file with the word "temp" in the name: >
+
+    let g:counterpoint_exclude_patterns = ["temp"]
+<
+See |pattern| for pattern syntax details. Each pattern in the array is matched
+as if `magic` was set and `cpoptions` as empty (see |expr-=~|).
+
+The default value is an empty array.
+
+|g:counterpoint_depth|                      *g:counterpoint_depth*
+
+An integer that controls which portions of a filename Counterpoint considers
+the root name.
+
+To assemble a counterpart set, Counterpoint will split the current filename
+at dots (except for a leading dot, if present). Some portion of the resulting
+array elements will be considered the root name, and the rest will be
+considered the extension (the varying part of the counterparts). A value of 0
+for |g:counterpoint_depth| tells Counterpoint to behave "normally," that is
+to consider only the first element in the array to be the root: >
+
+    some_file . win . cpp
+    ~~~~~~~~~   ~~~~~~~~~
+    root        extension
+<
+A positive value will cause Counterpoint to consider only that many elements
+from the back to be the extension. For example, setting the variable to one
+will cause Counterpoint to interpret the filename above as: >
+
+    some_file . win . cpp
+    ~~~~~~~~~~~~~~~   ~~~
+    root              extension
+<
+The default value is 0.
+
+------------------------------------------------------------------------------
+ABOUT                                     *counterpoint-about*
 
 Counterpoint is written and maintained by Josh Petrie. Grab the latest
-version, report a bug, or request a new feature via GitHub:
+version, report a bug, or request a new feature via GitHub: >
 
   https://github.com/jpetrie/vim-counterpoint
-
+<
 Counterpoint is distributed under the terms of the MIT license.
