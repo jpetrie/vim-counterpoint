@@ -31,7 +31,9 @@ endfunction
 function! s:PrepareSearchPaths(paths, root)
   let results = []
   for path in a:paths
-    let result = substitute(fnamemodify(simplify(a:root . "/" . path), ":p"), "\\\\$", "", "")
+    let result = simplify(a:root . "/" . path)
+    let result = fnamemodify(result, ":p")
+    let result = substitute(result, "\\\\$", "", "")
     call add(results, result)
   endfor
   return s:RemoveDuplicates(results)
@@ -68,7 +70,8 @@ function! s:CycleCounterpart(amount)
 
   " Collect the potential counterparts, filter out anything that matches any
   " supplied exclusion patterns, remove any duplicates, and then cycle.
-  let counterparts = split(globpath(join(paths, ","), root . ".*"))
+  let results = globpath(join(paths, ","), root . ".*")
+  let counterparts = split(results)
   let counterparts = filter(counterparts, "!s:IsCounterpartExcluded(v:val)")
   let counterparts = s:RemoveDuplicates(counterparts)
   if len(counterparts) <= 1
