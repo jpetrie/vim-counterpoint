@@ -8,7 +8,9 @@ endif
 
 let g:loaded_counterpoint = 1
 
-let g:counterpoint_depth = 0
+if !exists("g:counterpoint_depth")
+  let g:counterpoint_depth = 0
+endif
 
 if !exists("g:counterpoint_search_paths")
   let g:counterpoint_search_paths = []
