@@ -93,7 +93,8 @@ will cause Counterpoint to interpret the filename above as: >
     ~~~~~~~~~~~~~~~   ~~~
     root              extension
 <
-The default value is 0.
+
+The default value is 0. A negative value is treated like 0.
 
 ------------------------------------------------------------------------------
 ABOUT                                     *counterpoint-about*

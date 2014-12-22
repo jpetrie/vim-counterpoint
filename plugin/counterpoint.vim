@@ -52,7 +52,7 @@ function! s:CycleCounterpart(amount)
   let currentFile = expand("%:t")
 
   let parts = split(currentFile, "[.]")
-  if g:counterpoint_depth == 0
+  if g:counterpoint_depth <= 0
     let root = parts[0]
   else
     let root = join(parts[0:-g:counterpoint_depth - 1], ".")
