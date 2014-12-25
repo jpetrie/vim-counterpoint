@@ -1,6 +1,6 @@
 " counterpoint.vim - File Counterpart Navigation
 " Author:  Josh Petrie <http://joshpetrie.net>
-" Version: 0.6
+" Version: 1.0
 
 if exists("g:loaded_counterpoint")
   finish
