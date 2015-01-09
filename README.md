@@ -64,3 +64,14 @@ by changing the value of the `g:counterpoint_exclude_patterns` array:
 
 When cycling between counterparts, any file that matches any of the regular expressions
 in the exclusion set will be removed from the set of available counterparts.
+
+## Changelog
+
+### Version 1.0.1 (Current)
+
+ - Counterpoint's code is now delay-loaded via vim's autoload mechanism.
+
+### Version 1.0
+
+ - Initial stable version.
+
