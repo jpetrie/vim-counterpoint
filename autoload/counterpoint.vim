@@ -30,7 +30,7 @@ function! <SID>IsCounterpartExcluded(counterpart)
   return 0
 endfunction
 
-function! counterpoint#CycleCounterpart(amount)
+function! counterpoint#PeekCounterpart(amount)
   let currentFile = expand("%:t")
 
   let parts = split(currentFile, "[.]")
@@ -57,18 +57,26 @@ function! counterpoint#CycleCounterpart(amount)
   let counterparts = filter(counterparts, "!<SID>IsCounterpartExcluded(v:val)")
   let counterparts = <SID>RemoveDuplicates(counterparts)
   if len(counterparts) <= 1
-    echo "No counterpart available."
-    return
+    return ""
   endif
 
   let currentPath = expand("%:p")
   let index = 0
   for counterpart in counterparts
     if currentPath == fnamemodify(counterpart, ":p")
-      execute ":edit " . fnamemodify(counterparts[(index + a:amount) % len(counterparts)], ":~:.")
-      break
+      return fnamemodify(counterparts[(index + a:amount) % len(counterparts)], ":~:.")
     endif
-
     let index += 1
   endfor
+
+  return ""
+endfunction
+
+function! counterpoint#CycleCounterpart(amount)
+  let result = counterpoint#PeekCounterpart(a:amount)
+  if len(result) == 0
+    echo "No counterpart available."
+  else
+    execute "edit " . result
+  endif
 endfunction
