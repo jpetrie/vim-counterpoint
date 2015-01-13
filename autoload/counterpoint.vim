@@ -72,11 +72,24 @@ function! counterpoint#PeekCounterpart(amount)
   return ""
 endfunction
 
-function! counterpoint#CycleCounterpart(amount)
+function! counterpoint#CycleCounterpart(amount, reuse, command)
   let result = counterpoint#PeekCounterpart(a:amount)
   if len(result) == 0
     echo "No counterpart available."
   else
-    execute "edit " . result
+    if a:reuse == "!"
+      let window = bufwinnr(result)
+      if window >= 0
+        execute window . "wincmd w"
+        return
+      endif
+    endif
+
+    let command = a:command
+    if len(command) == 0
+      let command = "edit"
+    endif
+
+    execute command . " " . result
   endif
 endfunction

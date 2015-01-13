@@ -20,5 +20,5 @@ if !exists("g:counterpoint_exclude_patterns")
   let g:counterpoint_exclude_patterns = []
 endif
 
-command! -nargs=0 CounterpointNext :call counterpoint#CycleCounterpart(1)
-command! -nargs=0 CounterpointPrevious :call counterpoint#CycleCounterpart(-1)
+command! -bang -nargs=* CounterpointNext :call counterpoint#CycleCounterpart(1, "<bang>", "<args>")
+command! -bang -nargs=* CounterpointPrevious :call counterpoint#CycleCounterpart(-1, "<bang>", "<args>")
