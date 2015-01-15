@@ -17,7 +17,12 @@ everything before the *second* dot in the filename as the root. This allows
 Counterpoint to support switching between alternate versions of invisible
 files.
 
-Counterpoint switches between counterparts in alphabetical order.  
+Counterpoint switches between counterparts in alphabetical order. If you invoke
+the Counterpoint commands with the postfix bang modifier (`:CounterpointNext!`),
+Counterpoint will try to switch to an existing window containing the counterpart
+file before it tries to open it. It's also possible to specify arguments to the 
+commands to control how the file is opened (for example, to open it in a new
+split). See `:help counterpoint` for details.
 
 ## Installation
 

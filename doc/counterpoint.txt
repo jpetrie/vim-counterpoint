@@ -27,12 +27,41 @@ COMMANDS                                  *counterpoint-commands*
 
 Counterpoint provides the following commands:
 
-:CounterpointNext                         *counterpoint-:CounterpointNext*
+:CounterpointNext [args]                  *counterpoint-:CounterpointNext*
                                           Edit the next counterpart.
+                                          Use [args] to control how the file
+                                          is opened; see below.
 
-:CounterpointPrevious                     *counterpoint-:CounterpointPrevious*
+:CounterpointNext! [args]                 *counterpoint-:CounterpointNext!*
+                                          Like ":CounterpartNext" but tries to
+                                          switch to an existing window.
+
+:CounterpointPrevious [args]              *counterpoint-:CounterpointPrevious*
                                           Edit the previous counterpart.
+                                          Use [args] to control how the file
+                                          is opened; see below.
 
+:CounterpointPrevious! [args]             *counterpoint-:CounterpointPrevious!*
+                                          Like ":CounterpartPrevious" but tries
+                                          to switch to an existing window.
+
+                                          *args*
+The cycling commands take optional arguments which can be used to control how
+a counterpart is opened when cycling to it. Any Ex command that takes a file
+path can be used as the argument to a cycling command to cause Counterpoint to
+open the file via that command. If omitted, Counterpoint will use "edit" to
+open the file.
+
+For example, to open the counterpart in a horizontal split to the left of the
+current window: >
+
+    :CounterpointNext leftabove split
+<
+Or, to open the counterpart in a vertical split to the right, but only if the
+counterpart isn't already open elsewhere: >
+
+    :CounterpointNext! rightbelow vsplit
+<
 ------------------------------------------------------------------------------
 OPTIONS                                   *counterpoint-options*
 
