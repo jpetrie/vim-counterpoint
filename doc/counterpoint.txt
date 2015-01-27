@@ -126,6 +126,19 @@ will cause Counterpoint to interpret the filename above as: >
 The default value is 0. A negative value is treated like 0.
 
 ------------------------------------------------------------------------------
+API                                       *counterpoint-api*
+
+Counterpoint provides a minimal API for dealing with file counterparts that
+may be useful in tailoring vim to your individual workflow or building 
+dependant plugins.
+
+|counterpoint#PeekCountpart()|              *counterpoint-PeekCounterpart*
+
+PeekCounterpart() takes a single numeric argument and returns the filename
+that is that many steps ahead of the current file in the counterpart set. The
+function returns an empty string if there are no counterparts in the set.
+
+------------------------------------------------------------------------------
 ABOUT                                     *counterpoint-about*
 
 Counterpoint is written and maintained by Josh Petrie. Grab the latest
