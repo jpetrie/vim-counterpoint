@@ -38,6 +38,16 @@ It is recommended that you map Counterpoint's commands in your `.vimrc`, for exa
     :nnoremap <leader>a :CounterpointNext<CR>
     :nnoremap <leader>A :CounterpointPrevious<CR>
 
+Appending a `!` to a command causes it to try to switch to an existing window showing
+the counterpart buffer if possible. Supplying arguments to a command allows you to 
+define how the counterpart is opened, if needed. For example:
+
+    :nnoremap <leader>a :CounterpartNext! aboveleft vsplit
+
+This mapping will open the next counterpart in a split window on the left, unless that
+counterpart is already visible in another window (in which case that window will get
+the focus).
+
 ## Customization
 
 Counterpoint's manual (`:help counterpoint`) describes the available configuration
@@ -72,7 +82,15 @@ in the exclusion set will be removed from the set of available counterparts.
 
 ## Changelog
 
-### Version 1.0.1 (Current)
+### Version 1.1 (Current)
+
+ - Cycling commands can use the postfix bang (`CounterpointNext!`) to indicate that they
+   should try to switch to an existing window on the target buffer, if possible.
+ - Cycling commands can take arguments. If present, these arguments will define the
+   command that will be run to edit the target file.
+ - Broke cycling and computation of the next counterpart into separate functions.
+
+### Version 1.0.1
 
  - Counterpoint's code is now delay-loaded via vim's autoload mechanism.
 
