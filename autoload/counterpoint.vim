@@ -1,6 +1,6 @@
 " counterpoint.vim - cycle between file counterparts
 " Maintainer: Josh Petrie <http://joshpetrie.net>
-" Version:    1.1
+" Version:    1.1.1
 
 function! <SID>RemoveDuplicates(subject)
   let deduplicated = {}
@@ -32,6 +32,9 @@ endfunction
 
 function! counterpoint#PeekCounterpart(amount)
   let currentFile = expand("%:t")
+  if len(currentFile) <= 0
+    return ""
+  endif
 
   let parts = split(currentFile, "[.]")
   if g:counterpoint_depth <= 0

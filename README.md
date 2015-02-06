@@ -82,7 +82,12 @@ in the exclusion set will be removed from the set of available counterparts.
 
 ## Changelog
 
-### Version 1.1 (Current)
+### Version 1.1.1 (Current)
+
+ - Fixed a bug that caused errors when trying to switch counterparts in an unnamed
+   buffer (such as the default).
+
+### Version 1.1
 
  - Cycling commands can use the postfix bang (`CounterpointNext!`) to indicate that they
    should try to switch to an existing window on the target buffer, if possible.
