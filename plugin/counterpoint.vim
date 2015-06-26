@@ -1,6 +1,6 @@
 " counterpoint.vim - cycle between file counterparts
 " Maintainer: Josh Petrie <http://joshpetrie.net>
-" Version:    1.1.1
+" Version:    1.2
 
 if exists("g:loaded_counterpoint")
   finish
@@ -18,6 +18,10 @@ endif
 
 if !exists("g:counterpoint_exclude_patterns")
   let g:counterpoint_exclude_patterns = []
+endif
+
+if !exists("g:counterpoint_prompt_threshold")
+  let g:counterpoint_prompt_threshold = 0
 endif
 
 command! -bang -nargs=* CounterpointNext :call counterpoint#CycleCounterpart(1, "<bang>", "<args>")

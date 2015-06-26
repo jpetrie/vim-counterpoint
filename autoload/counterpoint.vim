@@ -1,6 +1,6 @@
 " counterpoint.vim - cycle between file counterparts
 " Maintainer: Josh Petrie <http://joshpetrie.net>
-" Version:    1.1.1
+" Version:    1.2
 
 function! <SID>RemoveDuplicates(subject)
   let deduplicated = {}
@@ -30,7 +30,24 @@ function! <SID>IsCounterpartExcluded(counterpart)
   return 0
 endfunction
 
-function! counterpoint#PeekCounterpart(amount)
+function! <SID>Jump(counterpart, reuse, command)
+    if a:reuse == "!"
+      let window = bufwinnr(a:counterpart)
+      if window >= 0
+        execute window . "wincmd w"
+        return
+      endif
+    endif
+
+    let command = a:command
+    if len(command) == 0
+      let command = "edit"
+    endif
+
+    execute command . " " . a:counterpart
+endfunction
+
+function! counterpoint#GetCounterparts()
   let currentFile = expand("%:t")
   if len(currentFile) <= 0
     return ""
@@ -53,12 +70,16 @@ function! counterpoint#PeekCounterpart(amount)
   call add(paths, ".")
   let paths = <SID>PrepareSearchPaths(paths, expand("%:h"))
 
-  " Collect the potential counterparts, filter out anything that matches any
-  " supplied exclusion patterns, remove any duplicates, and then cycle.
+  " Apply exclusions and remove any duplicates.
   let results = globpath(join(paths, ","), root . ".*")
   let counterparts = split(results)
   let counterparts = filter(counterparts, "!<SID>IsCounterpartExcluded(v:val)")
   let counterparts = <SID>RemoveDuplicates(counterparts)
+  return counterparts
+endfunction
+
+function! counterpoint#PeekCounterpart(amount)
+  let counterparts = counterpoint#GetCounterparts()
   if len(counterparts) <= 1
     return ""
   endif
@@ -76,23 +97,24 @@ function! counterpoint#PeekCounterpart(amount)
 endfunction
 
 function! counterpoint#CycleCounterpart(amount, reuse, command)
+  if g:counterpoint_prompt_threshold > 0 
+    let counterparts = counterpoint#GetCounterparts()
+    if len(counterparts) - 1 >= g:counterpoint_prompt_threshold
+      " Prompt for counterpart.
+      let result = inputlist(counterparts)
+      if result < 0
+        return
+      else
+        call <SID>Jump(counterparts[result], a:reuse, a:command)
+        return
+      endif
+    endif
+  endif
+
   let result = counterpoint#PeekCounterpart(a:amount)
   if len(result) == 0
     echo "No counterpart available."
   else
-    if a:reuse == "!"
-      let window = bufwinnr(result)
-      if window >= 0
-        execute window . "wincmd w"
-        return
-      endif
-    endif
-
-    let command = a:command
-    if len(command) == 0
-      let command = "edit"
-    endif
-
-    execute command . " " . result
+    call <SID>Jump(result, a:reuse, a:command)
   endif
 endfunction
