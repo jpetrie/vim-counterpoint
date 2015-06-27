@@ -98,10 +98,9 @@ endfunction
 
 function! counterpoint#CycleCounterpart(amount, reuse, command)
   if g:counterpoint_prompt_threshold > 0 
-    let counterparts = counterpoint#GetCounterparts()
-    if len(counterparts) - 1 >= g:counterpoint_prompt_threshold
+    let counterparts = filter(counterpoint#GetCounterparts(), "v:val != expand(\"%:p\")")
+    if len(counterparts) >= g:counterpoint_prompt_threshold
       let options = map(copy(counterparts), "(v:key + 1) . \": \" . fnamemodify(v:val, \":~:.\")")
-
       let result = inputlist(options)
       if result - 1 < 0
         return
