@@ -56,8 +56,8 @@ options.
 
 ### Search Paths
 
-Counterpont can search multiple directories for counterpart files (this can be useful
-in cases where source and header files are kept in seperate, sibling directories).
+Counterpoint can search multiple directories for counterpart files (this can be useful
+in cases where source and header files are kept in separate, sibling directories).
 
 To add additional search paths, set `g:counterpoint_search_paths` to an array containing
 the desired paths:
@@ -80,9 +80,15 @@ by changing the value of the `g:counterpoint_exclude_patterns` array:
 When cycling between counterparts, any file that matches any of the regular expressions
 in the exclusion set will be removed from the set of available counterparts.
 
-## Changelog
+## Changes
 
-### Version 1.1.1 (Current)
+### Version 1.2 (Current)
+
+ - Adding the ability to configure Counterpoint to prompt you for direct counterpart
+   jumps if the number of available counterparts meets a certain threshold. Disabled
+   by default, see `:help g:counterpoint_prompt_threshold` for details.
+
+### Version 1.1.1
 
  - Fixed a bug that caused errors when trying to switch counterparts in an unnamed
    buffer (such as the default).
