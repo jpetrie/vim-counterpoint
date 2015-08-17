@@ -125,6 +125,31 @@ will cause Counterpoint to interpret the filename above as: >
 
 The default value is 0. A negative value is treated like 0.
 
+|g:counterpoint_prompt_threshold|           *g:counterpoint_prompt_threshold*
+
+An integer that controls how many available counterparts must exist in order
+for Counterpoint to prompt for direct selection instead of cycling. After
+building the counterpart set, if the number of files in the set is greater
+than or equal to this threshold, Counterpoint will display a numbered list of
+all counterparts and ask you to directly select one by number.
+
+For example, if you have the files `foo.h`, `foo.m` and `foo.cpp` (the last of
+which is your current buffer) and set the threshold to 2, asking Counterpoint
+to go to the next or previous file will instead display a list like: >
+
+    1: code\foo.h
+    2: code\foo.m
+    Type number and <Enter> or click with mouse (empty cancels):
+
+<
+
+The current file is never included in the counterpart set.
+
+Setting this threshold to 0 disables this behavior, preventing Counterpoint
+from ever prompting you.
+
+The default value is 0. A negative value is treated like 0.
+
 ------------------------------------------------------------------------------
 API                                       *counterpoint-api*
 
