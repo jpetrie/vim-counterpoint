@@ -72,7 +72,7 @@ Counterpoint's behavior can be modified via the following options:
 An array of paths to search for counterparts. All paths should be relative,
 and will be interpreted as being relative to the current file (which is not
 always the same as vim's working directory). For example, to switch between
-C++ header and source files that live in seperate "inc" and "src" directories,
+C++ header and source files that live in separate "inc" and "src" directories,
 set the variable like so: >
 
     let g:counterpoint_search_paths = ["../inc", "../src"]
@@ -155,7 +155,7 @@ API                                       *counterpoint-api*
 
 Counterpoint provides a minimal API for dealing with file counterparts that
 may be useful in tailoring vim to your individual workflow or building 
-dependant plugins.
+dependent plugins.
 
 |counterpoint#PeekCountpart()|              *counterpoint-PeekCounterpart*
 
