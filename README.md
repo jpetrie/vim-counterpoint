@@ -84,7 +84,7 @@ in the exclusion set will be removed from the set of available counterparts.
 
 ### Version 1.2 (Current)
 
- - Adding the ability to configure Counterpoint to prompt you for direct counterpart
+ - Added the ability to configure Counterpoint to prompt you for direct counterpart
    jumps if the number of available counterparts meets a certain threshold. Disabled
    by default, see `:help g:counterpoint_prompt_threshold` for details.
 
