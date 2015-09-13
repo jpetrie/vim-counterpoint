@@ -42,7 +42,7 @@ Appending a `!` to a command causes it to try to switch to an existing window sh
 the counterpart buffer if possible. Supplying arguments to a command allows you to 
 define how the counterpart is opened, if needed. For example:
 
-    :nnoremap <leader>a :CounterpartNext! aboveleft vsplit
+    :nnoremap <leader>a :CounterpointNext! aboveleft vsplit
 
 This mapping will open the next counterpart in a split window on the left, unless that
 counterpart is already visible in another window (in which case that window will get
