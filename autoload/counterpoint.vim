@@ -30,6 +30,24 @@ function! <SID>IsCounterpartExcluded (counterpart)
   return 0
 endfunction
 
+function! <SID>Peek (amount, counterparts)
+  let length = len(a:counterparts)
+  if length <= 1
+    return ""
+  endif
+
+  let currentPath = expand("%:p")
+  let index = 0
+  for counterpart in a:counterparts
+    if currentPath == fnamemodify(counterpart, ":p")
+      return fnamemodify(a:counterparts[(index + a:amount) % length], ":~:.")
+    endif
+    let index += 1
+  endfor
+
+  return ""
+endfunction
+
 function! <SID>Jump (counterpart, reuse, command)
     if a:reuse == "!"
       let window = bufwinnr(a:counterpart)
@@ -95,39 +113,26 @@ function! counterpoint#GetCounterparts ()
 endfunction
 
 function! counterpoint#PeekCounterpart (amount)
-  let counterparts = counterpoint#GetCounterparts()
-  if len(counterparts) <= 1
-    return ""
-  endif
-
-  let currentPath = expand("%:p")
-  let index = 0
-  for counterpart in counterparts
-    if currentPath == fnamemodify(counterpart, ":p")
-      return fnamemodify(counterparts[(index + a:amount) % len(counterparts)], ":~:.")
-    endif
-    let index += 1
-  endfor
-
-  return ""
+  return <SID>Peek(a:amount, counterpoint#GetCounterparts())
 endfunction
 
 function! counterpoint#CycleCounterpart (amount, reuse, command)
+  let counterparts = counterpoint#GetCounterparts()
   if g:counterpoint_prompt_threshold > 0 
-    let counterparts = filter(counterpoint#GetCounterparts(), "v:val != expand(\"%:p\")")
-    if len(counterparts) >= g:counterpoint_prompt_threshold
-      let options = map(copy(counterparts), "(v:key + 1) . \": \" . fnamemodify(v:val, \":~:.\")")
+    let filtered = filter(copy(counterparts), "v:val != expand(\"%:p\")")
+    if len(filtered) >= g:counterpoint_prompt_threshold
+      let options = map(copy(filtered), "(v:key + 1) . \": \" . fnamemodify(v:val, \":~:.\")")
       let result = inputlist(options)
       if result - 1 < 0
         return
       else
-        call <SID>Jump(counterparts[result - 1], a:reuse, a:command)
+        call <SID>Jump(filtered[result - 1], a:reuse, a:command)
         return
       endif
     endif
   endif
 
-  let result = counterpoint#PeekCounterpart(a:amount)
+  let result = <SID>Peek(a:amount, counterparts)
   if len(result) == 0
     echo "No counterpart available."
   else

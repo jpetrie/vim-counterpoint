@@ -87,6 +87,7 @@ in the exclusion set will be removed from the set of available counterparts.
  - Listed buffers are included in the set of potential counterparts. `nofile` buffers
    are matched using their name as displayed by `ls`, regular buffers have their names
    expanded to complete file paths.
+ - Cycling counterparts will hit the disk half as often.
 
 ### Version 1.2
 
