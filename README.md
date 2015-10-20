@@ -82,7 +82,13 @@ in the exclusion set will be removed from the set of available counterparts.
 
 ## Changes
 
-### Version 1.2 (Current)
+### Version 1.3 (Current)
+
+ - Listed buffers are included in the set of potential counterparts. `nofile` buffers
+   are matched using their name as displayed by `ls`, regular buffers have their names
+   expanded to complete file paths.
+
+### Version 1.2
 
  - Added the ability to configure Counterpoint to prompt you for direct counterpart
    jumps if the number of available counterparts meets a certain threshold. Disabled

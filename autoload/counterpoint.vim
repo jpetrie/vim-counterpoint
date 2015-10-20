@@ -1,8 +1,8 @@
 " counterpoint.vim - cycle between file counterparts
 " Maintainer: Josh Petrie <http://joshpetrie.net>
-" Version:    1.2
+" Version:    1.3
 
-function! <SID>RemoveDuplicates(subject)
+function! <SID>RemoveDuplicates (subject)
   let deduplicated = {}
   for item in a:subject
     let deduplicated[item] = ""
@@ -10,7 +10,7 @@ function! <SID>RemoveDuplicates(subject)
   return sort(keys(deduplicated))
 endfunction
 
-function! <SID>PrepareSearchPaths(paths, root)
+function! <SID>PrepareSearchPaths (paths, root)
   let results = []
   for path in a:paths
     let result = simplify(a:root . "/" . path)
@@ -21,7 +21,7 @@ function! <SID>PrepareSearchPaths(paths, root)
   return <SID>RemoveDuplicates(results)
 endfunction
 
-function! <SID>IsCounterpartExcluded(counterpart)
+function! <SID>IsCounterpartExcluded (counterpart)
   for exclusion in g:counterpoint_exclude_patterns
     if a:counterpart =~ exclusion
       return 1
@@ -30,7 +30,7 @@ function! <SID>IsCounterpartExcluded(counterpart)
   return 0
 endfunction
 
-function! <SID>Jump(counterpart, reuse, command)
+function! <SID>Jump (counterpart, reuse, command)
     if a:reuse == "!"
       let window = bufwinnr(a:counterpart)
       if window >= 0
@@ -47,7 +47,7 @@ function! <SID>Jump(counterpart, reuse, command)
     execute command . " " . a:counterpart
 endfunction
 
-function! counterpoint#GetCounterparts()
+function! counterpoint#GetCounterparts ()
   let currentFile = expand("%:t")
   if len(currentFile) <= 0
     return ""
@@ -70,15 +70,31 @@ function! counterpoint#GetCounterparts()
   call add(paths, ".")
   let paths = <SID>PrepareSearchPaths(paths, expand("%:h"))
 
-  " Apply exclusions and remove any duplicates.
   let results = globpath(join(paths, ","), root . ".*")
   let counterparts = split(results)
+
+  " Include listed buffers that match the root pattern.
+  let buffers = []
+  for bufferNumber in filter(range(1, bufnr("$")), "bufexists(v:val) && buflisted(v:val)")
+    let bufferName = bufname(bufferNumber)
+
+    " Turn buffer name into a full path, unless the buffer is a 'nofile' buffer.
+    if match(getbufvar(bufferNumber, "&buftype"), "nofile") == -1
+      let bufferName = fnamemodify(bufferName, ":p")
+    endif
+    if match(bufferName, root . "\\..*$") >= 0
+      call add(buffers, bufferName)
+    endif
+  endfor
+
+  " Apply exclusions and remove any duplicates.
   let counterparts = filter(counterparts, "!<SID>IsCounterpartExcluded(v:val)")
+  call extend(counterparts, buffers)
   let counterparts = <SID>RemoveDuplicates(counterparts)
   return counterparts
 endfunction
 
-function! counterpoint#PeekCounterpart(amount)
+function! counterpoint#PeekCounterpart (amount)
   let counterparts = counterpoint#GetCounterparts()
   if len(counterparts) <= 1
     return ""
@@ -96,7 +112,7 @@ function! counterpoint#PeekCounterpart(amount)
   return ""
 endfunction
 
-function! counterpoint#CycleCounterpart(amount, reuse, command)
+function! counterpoint#CycleCounterpart (amount, reuse, command)
   if g:counterpoint_prompt_threshold > 0 
     let counterparts = filter(counterpoint#GetCounterparts(), "v:val != expand(\"%:p\")")
     if len(counterparts) >= g:counterpoint_prompt_threshold
