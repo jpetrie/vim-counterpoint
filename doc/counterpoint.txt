@@ -150,6 +150,16 @@ from ever prompting you.
 
 The default value is 0. A negative value is treated like 0.
 
+|g:counterpoint_include_listed|               *g:counterpoint_include_listed*
+
+An integer that controls whether or not Counterpoint considers listed buffers
+when building the counterpart set. Setting this to 0 will prevent Counterpoint
+from looking at the listed buffers when determining the next counterpart.
+Setting it to 1 will allow Counterpoint to do so, which allows you to cycle
+between counterparts that may not have been saved to disk yet.
+
+The default value is 0.
+
 ------------------------------------------------------------------------------
 API                                       *counterpoint-api*
 

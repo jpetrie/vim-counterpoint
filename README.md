@@ -82,7 +82,14 @@ in the exclusion set will be removed from the set of available counterparts.
 
 ## Changes
 
-### Version 1.3 (Current)
+### Version 1.4 (Current)
+
+ - Added `g:counterpoint_include_listed`, which can be set to 1 to allow Counterpoint to
+   examine the listed buffers when choosing a counterpart (this really should have been
+   included in version 1.3). Reverted the default behavior of Counterpoint to *not*
+   look at listed buffers.
+
+### Version 1.3
 
  - Listed buffers are included in the set of potential counterparts. `nofile` buffers
    are matched using their name as displayed by `ls`, regular buffers have their names

@@ -1,6 +1,6 @@
 " counterpoint.vim - cycle between file counterparts
 " Maintainer: Josh Petrie <http://joshpetrie.net>
-" Version:    1.3
+" Version:    1.4
 
 function! <SID>RemoveDuplicates (subject)
   let deduplicated = {}
@@ -93,17 +93,19 @@ function! counterpoint#GetCounterparts ()
 
   " Include listed buffers that match the root pattern.
   let buffers = []
-  for bufferNumber in filter(range(1, bufnr("$")), "bufexists(v:val) && buflisted(v:val)")
-    let bufferName = bufname(bufferNumber)
+  if g:counterpoint_include_listed == 1
+    for bufferNumber in filter(range(1, bufnr("$")), "bufexists(v:val) && buflisted(v:val)")
+      let bufferName = bufname(bufferNumber)
 
-    " Turn buffer name into a full path, unless the buffer is a 'nofile' buffer.
-    if match(getbufvar(bufferNumber, "&buftype"), "nofile") == -1
-      let bufferName = fnamemodify(bufferName, ":p")
-    endif
-    if match(bufferName, root . "\\..*$") >= 0
-      call add(buffers, bufferName)
-    endif
-  endfor
+      " Turn buffer name into a full path, unless the buffer is a 'nofile' buffer.
+      if match(getbufvar(bufferNumber, "&buftype"), "nofile") == -1
+        let bufferName = fnamemodify(bufferName, ":p")
+      endif
+      if match(bufferName, root . "\\..*$") >= 0
+        call add(buffers, bufferName)
+      endif
+    endfor
+  endif
 
   " Apply exclusions and remove any duplicates.
   let counterparts = filter(counterparts, "!<SID>IsCounterpartExcluded(v:val)")
