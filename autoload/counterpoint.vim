@@ -101,7 +101,7 @@ function! counterpoint#GetCounterparts ()
       if match(getbufvar(bufferNumber, "&buftype"), "nofile") == -1
         let bufferName = fnamemodify(bufferName, ":p")
       endif
-      if match(bufferName, root . "\\..*$") >= 0
+      if match(bufferName, "[/\\]" . root . ".*$") >= 0
         call add(buffers, bufferName)
       endif
     endfor
