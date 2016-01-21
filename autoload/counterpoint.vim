@@ -30,6 +30,22 @@ function! <SID>IsCounterpartExcluded (counterpart)
   return 0
 endfunction
 
+function! <SID>GetRoot (file)
+  let parts = split(a:file, "[.]")
+  if g:counterpoint_depth <= 0
+    let root = parts[0]
+  else
+    let root = join(parts[0:-g:counterpoint_depth - 1], ".")
+  endif
+
+  " Restore the leading dot, if it existed.
+  if a:file[0] == "."
+    let root = "." . root
+  endif
+
+  return root
+endfunction
+
 function! <SID>Peek (amount, counterparts)
   let length = len(a:counterparts)
   if length <= 1
@@ -79,17 +95,8 @@ function! counterpoint#GetCounterparts ()
     return ""
   endif
 
-  let parts = split(currentFile, "[.]")
-  if g:counterpoint_depth <= 0
-    let root = parts[0]
-  else
-    let root = join(parts[0:-g:counterpoint_depth - 1], ".")
-  endif
-
-  " Restore the leading dot, if it existed.
-  if currentFile[0] == "."
-    let root = "." . root
-  endif
+  " Get the root component.
+  let root = <SID>GetRoot(currentFile)
 
   " Prepare search paths.
   let paths = copy(g:counterpoint_search_paths)
@@ -109,7 +116,11 @@ function! counterpoint#GetCounterparts ()
       if match(getbufvar(bufferNumber, "&buftype"), "nofile") == -1
         let bufferName = fnamemodify(bufferName, ":p")
       endif
-      if match(bufferName, "[/\\]" . root . ".*$") >= 0
+
+      " Only allow buffers with a matching root into the list.
+      let bufferRoot = fnamemodify(bufferName, ":t")
+      let bufferRoot = <SID>GetRoot(bufferRoot)
+      if bufferRoot == root
         call add(buffers, bufferName)
       endif
     endfor
