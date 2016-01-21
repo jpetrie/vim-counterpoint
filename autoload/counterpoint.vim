@@ -40,7 +40,15 @@ function! <SID>Peek (amount, counterparts)
   let index = 0
   for counterpart in a:counterparts
     if currentPath == fnamemodify(counterpart, ":p")
-      return fnamemodify(a:counterparts[(index + a:amount) % length], ":~:.")
+      let result = fnamemodify(a:counterparts[(index + a:amount) % length], ":~:.")
+      if has("win32") && result[0] == '\'
+        " On Windows, fnamemodify with ":." will chop the drive letter from
+        " the result if the path is not under the current directory; in this
+        " case the path should have been unmodified, so the letter should be
+        " restore to the front of the string.
+        let result = strpart(counterpart, 0, 2) . result
+      endif
+      return result
     endif
     let index += 1
   endfor
@@ -111,6 +119,7 @@ function! counterpoint#GetCounterparts ()
   let counterparts = filter(counterparts, "!<SID>IsCounterpartExcluded(v:val)")
   call extend(counterparts, buffers)
   let counterparts = <SID>RemoveDuplicates(counterparts)
+
   return counterparts
 endfunction
 
