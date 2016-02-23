@@ -61,7 +61,7 @@ function! <SID>Peek (amount, counterparts)
         " On Windows, fnamemodify with ":." will chop the drive letter from
         " the result if the path is not under the current directory; in this
         " case the path should have been unmodified, so the letter should be
-        " restore to the front of the string.
+        " restored to the front of the string.
         let result = strpart(counterpart, 0, 2) . result
       endif
       return result
