@@ -111,6 +111,9 @@ function! counterpoint#GetCounterparts ()
   if g:counterpoint_include_listed == 1
     for bufferNumber in filter(range(1, bufnr("$")), "bufexists(v:val) && buflisted(v:val)")
       let bufferName = bufname(bufferNumber)
+      if len(bufferName) == 0
+        continue
+      endif
 
       " Turn buffer name into a full path, unless the buffer is a 'nofile' buffer.
       if match(getbufvar(bufferNumber, "&buftype"), "nofile") == -1
@@ -119,7 +122,6 @@ function! counterpoint#GetCounterparts ()
 
       " Only allow buffers with a matching root into the list.
       let bufferRoot = fnamemodify(bufferName, ":t")
-      echom "Buffer root: " . bufferRoot
       let bufferRoot = <SID>GetRoot(bufferRoot)
       if bufferRoot == root
         call add(buffers, bufferName)
