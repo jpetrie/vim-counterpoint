@@ -119,6 +119,7 @@ function! counterpoint#GetCounterparts ()
 
       " Only allow buffers with a matching root into the list.
       let bufferRoot = fnamemodify(bufferName, ":t")
+      echom "Buffer root: " . bufferRoot
       let bufferRoot = <SID>GetRoot(bufferRoot)
       if bufferRoot == root
         call add(buffers, bufferName)
@@ -140,7 +141,7 @@ endfunction
 
 function! counterpoint#CycleCounterpart (amount, reuse, command)
   let counterparts = counterpoint#GetCounterparts()
-  if g:counterpoint_prompt_threshold > 0 
+  if len(counterparts) > 0 && g:counterpoint_prompt_threshold > 0
     let filtered = filter(copy(counterparts), "v:val != expand(\"%:p\")")
     if len(filtered) >= g:counterpoint_prompt_threshold
       let options = map(copy(filtered), "(v:key + 1) . \": \" . fnamemodify(v:val, \":~:.\")")
