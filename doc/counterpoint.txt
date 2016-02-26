@@ -160,6 +160,15 @@ between counterparts that may not have been saved to disk yet.
 
 The default value is 0.
 
+|g:counterpoint_include_path|                   *g:counterpoint_include_path*
+
+An integer that controls whether or not Counterpoint considers the directories
+in vim's `path` setting when building the counterpart set. Setting this to 0
+will prevent Counterpoint from searching vim's search paths, while setting it
+to 1 will cause it to do so.
+
+The default value is 0.
+
 ------------------------------------------------------------------------------
 API                                       *counterpoint-api*
 

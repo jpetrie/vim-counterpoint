@@ -105,11 +105,13 @@ function! counterpoint#GetCounterparts ()
 
   " Prepare search paths.
   let paths = copy(g:counterpoint_search_paths)
+  if g:counterpoint_include_path == 1
+    call extend(paths, split(&path, "\\\\\\@<![, ]"))
+  endif
   call add(paths, ".")
   let paths = <SID>PrepareSearchPaths(paths, expand("%:h"))
 
-  let results = globpath(join(paths, ","), root . ".*")
-  let counterparts = split(results)
+  let counterparts = globpath(join(paths, ","), root . ".*", 0, 1)
 
   " Include listed buffers that match the root pattern.
   let buffers = []
