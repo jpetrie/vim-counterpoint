@@ -13,8 +13,13 @@ endfunction
 function! <SID>PrepareSearchPaths (paths, root)
   let results = []
   for path in a:paths
-    let result = simplify(a:root . "/" . path)
-    let result = fnamemodify(result, ":p")
+    if match(path, "^\\(.:[\\\\/]\\|/\\)") == 0
+      let result = path
+    else
+      let result = simplify(a:root . "/" . path)
+      let result = fnamemodify(result, ":p")
+    endif
+
     let result = substitute(result, "\\\\$", "", "")
     call add(results, result)
   endfor
