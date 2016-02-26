@@ -42,15 +42,16 @@ provides a brief overview of the most common options.
 ### Search Paths
 
 Counterpoint can search multiple directories for counterpart files (this can be useful in cases where source and header
-files are kept in separate, sibling directories).
+files are kept in separate, sibling directories). If you've already configured your `path` setting in vim (for `gf` and
+the like), you can instruct Counterpoint to read `path` by setting `g:counterpoint_include_path` to 1. 
 
 To add additional search paths, set `g:counterpoint_search_paths` to an array containing the desired paths:
 
     let g:counterpoint_search_paths = ["relative/path/here", "another/path/here"]
 
-Only relative paths should be used; Counterpoint will always view them as being relative to the directory containing the
-current file. Counterpoint will always search the current file's directory for counterparts as well; you don't need to
-explicitly specify it in the search path array.
+Absolute or relative paths are permitted. Counterpoint will treat relative paths as being relative to the directory
+containing the current file. The current file's directory will always be searched for counterparts as well; you don't
+need to explicitly specify it in the search path array.
 
 ### Excluding Files
 

@@ -69,11 +69,11 @@ Counterpoint's behavior can be modified via the following options:
 
 |g:counterpoint_search_paths|               *g:counterpoint_search_paths*
 
-An array of paths to search for counterparts. All paths should be relative,
-and will be interpreted as being relative to the current file (which is not
-always the same as vim's working directory). For example, to switch between
-C++ header and source files that live in separate "inc" and "src" directories,
-set the variable like so: >
+An array of paths to search for counterparts. Paths may be relative or
+absolute. Relative paths and will be interpreted as being relative to the current
+file (which is not always the same as vim's working directory). For example, to
+switch between C++ header and source files that live in separate "inc" and "src"
+directories, set the variable like so: >
 
     let g:counterpoint_search_paths = ["../inc", "../src"]
 <
