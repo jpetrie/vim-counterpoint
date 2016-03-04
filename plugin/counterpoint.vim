@@ -1,6 +1,6 @@
 " counterpoint.vim - cycle between file counterparts
 " Maintainer: Josh Petrie <http://joshpetrie.net>
-" Version:    1.5
+" Version:    1.6
 
 if exists("g:loaded_counterpoint")
   finish
