@@ -13,7 +13,7 @@ Counterpoint understands that. However, Counterpoint will also treat
 "a.osx.cpp" and "a.win.cpp" as members of the same collection of alternates.
 
 Specifically, Counterpart navigates between a group a files defined by a root
-name, which is everything to left of the first dot in a file name. A leading
+name, which is everything to left of the first separator in a file name. A leading
 dot (as exists in the names of invisible files) is still considered part of
 the root name. Anything after the root name is considered an extension, and
 Counterpoint will cycle between those extensions in alphabetical order.
@@ -98,13 +98,32 @@ as if `magic` was set and `cpoptions` as empty (see |expr-=~|).
 
 The default value is an empty array.
 
+|g:counterpoint_separator_pattern|          *g:counterpoint_separator_pattern*
+
+A regular expression where to split the current filename into root and
+extension elements. For example, to include files like `foo_p.h` that use
+both underscore ("_") and dot (".") in extension: >
+
+    let g:counterpoint_separator_pattern = "[._]"
+
+In this case the following files will be recognized as counterparts: >
+
+    foo.h
+    foo_p.h
+    foo_qnx.cpp
+    foo_qnx_p.h
+    foo_win.cpp
+<
+The default value is "[.]". See |wildcards| for the use of special characters.
+
 |g:counterpoint_depth|                      *g:counterpoint_depth*
 
 An integer that controls which portions of a filename Counterpoint considers
 the root name.
 
 To assemble a counterpart set, Counterpoint will split the current filename
-at dots (except for a leading dot, if present). Some portion of the resulting
+at separator (except for a leading dot, if present) defined by
+|g:counterpoint_separator_pattern|. Some portion of the resulting
 array elements will be considered the root name, and the rest will be
 considered the extension (the varying part of the counterparts). A value of 0
 for |g:counterpoint_depth| tells Counterpoint to behave "normally," that is

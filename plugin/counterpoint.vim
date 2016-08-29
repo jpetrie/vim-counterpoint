@@ -32,5 +32,9 @@ if !exists("g:counterpoint_include_path")
   let g:counterpoint_include_path = 0
 endif
 
+if !exists("g:counterpoint_separator_pattern")
+  let g:counterpoint_separator_pattern = "[.]"
+endif
+
 command! -bang -nargs=* CounterpointNext :call counterpoint#CycleCounterpart(1, "<bang>", "<args>")
 command! -bang -nargs=* CounterpointPrevious :call counterpoint#CycleCounterpart(-1, "<bang>", "<args>")
