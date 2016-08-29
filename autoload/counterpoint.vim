@@ -36,7 +36,7 @@ function! <SID>IsCounterpartExcluded (counterpart)
 endfunction
 
 function! <SID>GetRoot (file)
-  let parts = split(a:file, "[.]")
+  let parts = split(a:file, g:counterpoint_separator_pattern)
   if g:counterpoint_depth <= 0
     let root = parts[0]
   else
@@ -111,7 +111,7 @@ function! counterpoint#GetCounterparts ()
   call add(paths, ".")
   let paths = <SID>PrepareSearchPaths(paths, expand("%:h"))
 
-  let counterparts = globpath(join(paths, ","), root . ".*", 0, 1)
+  let counterparts = globpath(join(paths, ","), root . g:counterpoint_separator_pattern . "*", 0, 1)
 
   " Include listed buffers that match the root pattern.
   let buffers = []
