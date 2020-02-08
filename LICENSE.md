@@ -1,4 +1,4 @@
-Copyright (C) 2014 - 2019 Josh Petrie
+Copyright (C) 2014 - 2020 Josh Petrie
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
