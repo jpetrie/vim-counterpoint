@@ -1,5 +1,3 @@
-**This project is looking for a new maintainer. See [Issue #19](https://github.com/jpetrie/vim-counterpoint/issues/19) for more details.**
-
 # counterpoint.vim
 
 Use Counterpoint to easily switch between file counterparts (`.h` and `.cpp`, et cetera) using `:CounterpointNext` and
