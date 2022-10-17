@@ -1,4 +1,4 @@
-*counterpoint.vim*  Simple navigation for file counterparts.
+*counterpoint.txt*  Simple navigation for file counterparts.
 
 Author:  Josh Petrie <http://joshpetrie.net>
 License: MIT license
