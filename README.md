@@ -17,6 +17,8 @@ postfix bang modifier (`:CounterpointNext!`), Counterpoint will try to switch to
 counterpart file before it tries to open it. It's also possible to specify arguments to the commands to control how the
 file is opened (for example, to open it in a new split). See `:help counterpoint` for details.
 
+As of the 1.7 release, Counterpoint is considered feature-complete and is no longer under active development.
+
 ## Installation
 
 Counterpoint has no special installation requirements and can be installed via your preferred plugin management method.
